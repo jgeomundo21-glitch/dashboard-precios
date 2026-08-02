@@ -1,8 +1,10 @@
+from datetime import datetime
 import glob
 import os
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+from PIL import Image
 
 # Configuración de la página
 st.set_page_config(
@@ -25,15 +27,30 @@ def load_data():
     return df
 
 
-st.title("📊 Dashboard Competitivo: Mystic vs Competencia (Dispersión)")
-st.markdown(
-    """
-    <div style='color: #555555; font-size: 14px; margin-bottom: 20px;'>
-        Dashboard analítico desarrollado por <b>Jorge Abraham</b> para Mystic. Todos los derechos de diseño, lógica de negocio y procesamiento de datos reservados.
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+# --- CARGA DE LOGO ---
+try:
+    logo = Image.open("Mystic.jpg")
+except FileNotFoundError:
+    try:
+        logo = Image.open("image_0.png")
+    except FileNotFoundError:
+        logo = None
+
+# --- TÍTULO Y LOGO EN LA CABECERA (LOGO MÁS GRANDE) ---
+header_col1, header_col2 = st.columns([1.2, 10])
+with header_col1:
+    if logo:
+        st.image(logo, width=150)  # Logo ampliado
+with header_col2:
+    st.title("📊 Dashboard Competitivo: Mystic vs Competencia (Dispersión)")
+    st.markdown(
+        """
+        <div style='color: #555555; font-size: 14px; margin-bottom: 20px;'>
+            Dashboard analítico desarrollado por <b>Jorge Abraham</b> para Mystic. Todos los derechos de diseño, lógica de negocio y procesamiento de datos reservados.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 df = load_data()
 
